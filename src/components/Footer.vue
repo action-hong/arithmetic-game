@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { isDark, toggleDark } from '~/composables'
+import { showHelpDialog } from '~/state'
+
 </script>
 
 <template>
@@ -13,9 +15,15 @@ import { isDark, toggleDark } from '~/composables'
       class="icon-btn"
       i-carbon-logo-github
       rel="noreferrer"
-      href="https://github.com/antfu/vitesse-lite"
+      href="https://github.com/action-hong"
       target="_blank"
       title="GitHub"
+    />
+
+    <div
+      class="icon-btn"
+      i-carbon-help
+      @click="showHelpDialog = true"
     />
   </nav>
 </template>
