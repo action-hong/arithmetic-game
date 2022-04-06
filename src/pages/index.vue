@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { IndexResult } from '~/core'
 import { useUserInputHistory } from '~/composables'
-import { diff, getTipFromResult } from '~/core'
+import { diff, getTipFromResult, win } from '~/core'
 const answer = $ref('12+35=47')
 
 // 总共可以猜的次数
@@ -16,6 +16,8 @@ const userInputResult = $computed(() => userInput.value.map(input => diff(answer
 
 // 当前回答第几次
 const currentIndex = $computed(() => userInput.value.length)
+// 还剩几次
+const remainCount = $computed(() => count - currentIndex)
 // 当前的输入
 const currentInput = $(useStorage<string[]>('__user_current_input', []))
 // 当前选择的格子
@@ -60,9 +62,7 @@ function handleInputEnter() {
   userInput.value.push(input)
 
   if (input === answer) {
-    nextTick(() => {
-      alert('恭喜你, 答对了')
-    })
+    win()
     status.value = 'success'
     currentInput.length = 0
     currentSelectIndex.value = 0
@@ -143,6 +143,7 @@ onKeyStroke('Delete', handleInputDelete)
       </div>
       <!-- 正在猜的 -->
       <div
+        v-if="status === 'playing'"
         flex="~"
         items-center
         justify="center"
@@ -160,20 +161,27 @@ onKeyStroke('Delete', handleInputDelete)
         </div>
       </div>
       <!-- 剩余的 -->
-      <div
-        v-for="i in (count - userInput.length)"
-        :key="i"
-        flex="~"
-      >
+      <template v-if="status !== 'success' && remainCount > 0">
         <div
-          v-for="pos in answer.length"
-          :key="pos"
-          class="cell"
-        />
-      </div>
+          v-for="i in remainCount"
+          :key="i"
+          flex="~"
+        >
+          <div
+            v-for="pos in answer.length"
+            :key="pos"
+            class="cell"
+          />
+        </div>
+      </template>
+      <template v-else>
+        <p text-3xl m="y-2">
+          {{ status === 'success' ? '你猜对了' : '你失败了!' }}
+        </p>
+      </template>
     </div>
     <div m-2>
-      <p>以下是可供的选择:</p>
+      <p>选择</p>
       <div
         flex="~ wrap"
         items-center
@@ -200,7 +208,7 @@ onKeyStroke('Delete', handleInputDelete)
           class="cell-btn"
           @click="handleInputEnter"
         >
-          确定
+          Enter
         </div>
         <div
           bg-green-500
@@ -209,7 +217,7 @@ onKeyStroke('Delete', handleInputDelete)
           class="cell-btn"
           @click="handleInputDelete"
         >
-          删除
+          DELETE
         </div>
       </div>
     </div>
