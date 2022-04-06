@@ -1,0 +1,81 @@
+// Vitest Snapshot v1
+
+exports[`core > diff 1`] = `
+[
+  {
+    "char": "2",
+    "pos": 0,
+    "type": "wrong position",
+  },
+  {
+    "char": "-",
+    "pos": 1,
+    "type": "wrong",
+  },
+  {
+    "char": "1",
+    "pos": 2,
+    "type": "correct",
+  },
+  {
+    "char": "=",
+    "pos": 3,
+    "type": "correct",
+  },
+  {
+    "char": "1",
+    "pos": 4,
+    "type": "wrong position",
+  },
+]
+`;
+
+exports[`core > diff 2`] = `
+[
+  {
+    "char": "1",
+    "pos": 0,
+    "type": "correct",
+  },
+  {
+    "char": "+",
+    "pos": 1,
+    "type": "correct",
+  },
+  {
+    "char": "1",
+    "pos": 2,
+    "type": "correct",
+  },
+  {
+    "char": "=",
+    "pos": 3,
+    "type": "correct",
+  },
+  {
+    "char": "1",
+    "pos": 4,
+    "type": "wrong",
+  },
+  {
+    "char": "4",
+    "pos": 5,
+    "type": "wrong position",
+  },
+  {
+    "char": "7",
+    "pos": 6,
+    "type": "wrong",
+  },
+]
+`;
+
+exports[`core > diff 3`] = `
+Map {
+  "1" => "correct",
+  "+" => "correct",
+  "=" => "correct",
+  "4" => "wrong position",
+  "7" => "wrong",
+}
+`;
