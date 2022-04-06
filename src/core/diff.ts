@@ -1,6 +1,6 @@
-type IndexResultType = 'correct' | 'wrong position' | 'wrong'
+export type IndexResultType = 'correct' | 'wrong position' | 'wrong' | 'unknown'
 
-interface IndexResult {
+export interface IndexResult {
   pos: number
   char: string
   type: IndexResultType
@@ -46,17 +46,21 @@ export function diff(answer: string, input: string): Array<IndexResult> {
   return result
 }
 
-export function getTipFromResult(result: Array<IndexResult>) {
-  return result.reduce((acc, item) => {
-    if (!acc.has(item.char)) {
-      acc.set(item.char, item.type)
-    }
-    else {
-      const currentType = acc.get(item.char)
-      if (currentType !== 'correct' && item.type !== 'wrong') {
+export function getTipFromResult(result: Array<Array<IndexResult>>) {
+  const map = new Map<string, IndexResultType>()
+  result.forEach((arr) => {
+    arr.reduce((acc, item) => {
+      if (!acc.has(item.char)) {
         acc.set(item.char, item.type)
       }
-    }
-    return acc
-  }, new Map<string, IndexResultType>())
+      else {
+        const currentType = acc.get(item.char)
+        if (currentType !== 'correct' && item.type === 'wrong') {
+          acc.set(item.char, item.type)
+        }
+      }
+      return acc
+    }, map)
+  })
+  return map
 }

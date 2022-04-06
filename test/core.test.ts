@@ -14,6 +14,6 @@ describe('core', () => {
     )
     expect(result).toMatchSnapshot()
 
-    expect(getTipFromResult(result)).toMatchSnapshot()
+    expect(getTipFromResult([result])).toMatchSnapshot()
   })
 })
