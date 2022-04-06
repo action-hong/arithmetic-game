@@ -1,19 +1,25 @@
 <script setup lang="ts">
 import type { IndexResult } from '~/core'
+import { useUserInputHistory } from '~/composables'
 import { diff, getTipFromResult } from '~/core'
 const answer = $ref('12+35=47')
 
+// 总共可以猜的次数
 const count = $ref(6)
 
-const userInput = $ref<string[]>([])
-const userInputResult = $computed(() => userInput.map(input => diff(answer, input)))
+// 游戏状态
+const {
+  status,
+  userInput,
+} = toRefs(useUserInputHistory(new Date().toLocaleDateString()))
+const userInputResult = $computed(() => userInput.value.map(input => diff(answer, input)))
 
 // 当前回答第几次
-const currentIndex = $computed(() => userInput.length)
+const currentIndex = $computed(() => userInput.value.length)
 // 当前的输入
-const currentInput = $ref<string[]>([])
+const currentInput = $(useStorage<string[]>('__user_current_input', []))
 // 当前选择的格子
-const currentSelectIndex = ref(0)
+const currentSelectIndex = useStorage<number>('__user_current_select_index', 0)
 
 const markup = $ref('1234567890+-*/='.split(''))
 const digitInformation = $computed(() => getTipFromResult(userInputResult))
@@ -25,25 +31,28 @@ const showTip = $computed<Array<IndexResult>>(() => markup.map((char, pos) => ({
 })))
 
 function handleChangeCurrent(item: IndexResult) {
+  if (status.value !== 'playing') { return }
   currentInput[currentSelectIndex.value] = item.char
   if (currentSelectIndex.value < answer.length - 1) {
-    currentSelectIndex.value++
+    currentSelectIndex.value!++
   }
 }
 
 function handleInputEnter() {
+  if (status.value !== 'playing') { return }
   if (currentInput.filter(item => item.length).length !== answer.length) {
     alert(`请输入完整, 长度必须是${answer.length}`)
     return
   }
 
   const input = currentInput.join('')
-  userInput.push(input)
+  userInput.value.push(input)
 
   if (input === answer) {
     nextTick(() => {
       alert('恭喜你, 答对了')
     })
+    status.value = 'success'
     currentInput.length = 0
     currentSelectIndex.value = 0
     return
@@ -53,6 +62,7 @@ function handleInputEnter() {
     nextTick(() => {
       alert('猜的次数用完了!游戏结束了')
     })
+    status.value = 'failure'
     return
   }
 
@@ -108,7 +118,7 @@ function handleInputEnter() {
           v-for="pos in answer.length"
           :key="pos"
           :class="{
-            'border-orange-400 border-2': currentSelectIndex === pos - 1,
+            'border-orange-400 border-2': currentSelectIndex === pos - 1 && status === 'playing',
           }"
           bg="gray-600"
           color="white"
