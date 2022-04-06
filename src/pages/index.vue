@@ -30,11 +30,22 @@ const showTip = $computed<Array<IndexResult>>(() => markup.map((char, pos) => ({
   pos,
 })))
 
-function handleChangeCurrent(item: IndexResult) {
+function changeCurrentSelectIndex(delta: number) {
+  if (status.value !== 'playing') { return }
+  currentSelectIndex.value! += delta
+  if (currentSelectIndex.value! < 0) {
+    currentSelectIndex.value! = 0
+  }
+  if (currentSelectIndex.value! >= answer.length) {
+    currentSelectIndex.value! = answer.length - 1
+  }
+}
+
+function handleChangeCurrent(item: Partial<IndexResult> & { char: string }, autoNext = true) {
   if (status.value !== 'playing') { return }
   currentInput[currentSelectIndex.value] = item.char
-  if (currentSelectIndex.value < answer.length - 1) {
-    currentSelectIndex.value!++
+  if (autoNext) {
+    changeCurrentSelectIndex(1)
   }
 }
 
@@ -71,6 +82,32 @@ function handleInputEnter() {
   currentSelectIndex.value = 0
 }
 
+function handleInputDelete() {
+  if (status.value !== 'playing') { return }
+  currentInput[currentSelectIndex.value] = ''
+}
+
+markup.forEach((val) => {
+  onKeyStroke(val, () => {
+    handleChangeCurrent({
+      char: val,
+    })
+  })
+})
+
+// 光标方向
+;([['ArrowLeft', -1], ['ArrowRight', 1]] as const)
+  .forEach(([key, delta]) => {
+    onKeyStroke(key, () => {
+      changeCurrentSelectIndex(delta)
+    })
+  })
+
+// 回车
+onKeyStroke('Enter', handleInputEnter)
+// Delete
+onKeyStroke('Delete', handleInputDelete)
+
 </script>
 
 <template>
@@ -94,16 +131,12 @@ function handleInputEnter() {
         <div
           v-for="(item, idx) in row"
           :key="idx"
+          class="cell"
           :class="{
             'bg-green-500': item.type === 'correct',
             'bg-red-500': item.type === 'wrong',
             'bg-orange-400': item.type === 'wrong position',
           }"
-          color="white"
-          class="w-8 h-8 m-1"
-          flex="~"
-          items-center
-          justify="center"
         >
           <span>{{ item.char }}</span>
         </div>
@@ -120,13 +153,7 @@ function handleInputEnter() {
           :class="{
             'border-orange-400 border-2': currentSelectIndex === pos - 1 && status === 'playing',
           }"
-          bg="gray-600"
-          color="white"
-          class="w-8 h-8 m-1"
-          cursor="pointer"
-          flex="~"
-          items-center
-          justify="center"
+          class="cell-btn"
           @click.stop="currentSelectIndex = pos - 1"
         >
           <span>{{ currentInput[pos - 1] }}</span>
@@ -141,9 +168,7 @@ function handleInputEnter() {
         <div
           v-for="pos in answer.length"
           :key="pos"
-          bg="gray-600"
-          color="white"
-          class="w-8 h-8 m-1"
+          class="cell"
         />
       </div>
     </div>
@@ -163,29 +188,28 @@ function handleInputEnter() {
             'bg-orange-400': item.type === 'wrong position',
             'bg-gray-700': item.type === 'unknown'
           }"
-          color="white"
-          class="w-8 h-8 m-1"
-          flex="~"
-          items-center
-          justify="center"
-          cursor="pointer"
+          class="cell-btn"
           @click.stop="handleChangeCurrent(item)"
         >
           {{ item.char }}
         </div>
         <div
           bg-green-500
-          color="white"
-          h-8
-          m-1
-          p="x-4"
-          flex="~"
-          items-center
-          justify="center"
-          cursor="pointer"
+          w="auto"
+          p="x-2"
+          class="cell-btn"
           @click="handleInputEnter"
         >
           确定
+        </div>
+        <div
+          bg-green-500
+          w="auto"
+          p="x-2"
+          class="cell-btn"
+          @click="handleInputDelete"
+        >
+          删除
         </div>
       </div>
     </div>
