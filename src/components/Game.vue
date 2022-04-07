@@ -2,7 +2,7 @@
 import type { IndexResult } from '~/core'
 import { MARKUP, diff, getTipFromResult, win } from '~/core'
 import { currentTry, currentTryIndex, meta, tries } from '~/storage'
-import { answer } from '~/state'
+import { answer, isDev } from '~/state'
 
 // 总共可以猜的次数
 const count = $ref(6)
@@ -108,7 +108,9 @@ onKeyStroke('Backspace', () => handleInputDelete(true))
         Nerd Game
       </a>
     </p>
-    <p>{{ answer }}</p>
+    <p v-if="isDev">
+      {{ answer }}
+    </p>
     <div py-4 />
     <div flex="~ col" items-center>
       <!-- 已经猜的次数: -->

@@ -18,3 +18,5 @@ export const customAnswer = ref<string>('')
 export const answer = computed(() => gameType.value === 'custom' ? customAnswer.value : getAnswerOfDay(dayNo.value))
 
 export const showHelpDialog = ref(false)
+const params = new URLSearchParams(window.location.search)
+export const isDev = import.meta.hot || params.get('dev') === 'hey'
