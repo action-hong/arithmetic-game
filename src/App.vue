@@ -3,13 +3,13 @@ import { customAnswer, dayNo, daySince, gameType } from './state'
 const route = useRoute()
 
 watch(() => route, (val) => {
-  if (val.query.d) {
+  if (val.params.d) {
     dayNo.value = Number(val.params.d)
   }
   else {
     dayNo.value = daySince.value
   }
-  if (val.query.answer && typeof val.params.answer === 'string') {
+  if (val.params.answer && typeof val.params.answer === 'string') {
     // TODO: 校验合法性
     gameType.value = 'custom'
     customAnswer.value = atob(val.params.answer)
@@ -17,7 +17,7 @@ watch(() => route, (val) => {
   else {
     gameType.value = 'classic'
   }
-}, { immediate: true })
+}, { immediate: true, deep: true })
 
 </script>
 
