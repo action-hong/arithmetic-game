@@ -1,93 +1,81 @@
 <script setup lang="ts">
 import type { IndexResult } from '~/core'
-import { useUserInputHistory } from '~/composables'
-import { diff, getTipFromResult, win } from '~/core'
+import { MARKUP, diff, getTipFromResult, win } from '~/core'
+import { currentTry, currentTryIndex, meta, tries } from '~/storage'
 const answer = $ref('12+35=47')
 
 // 总共可以猜的次数
 const count = $ref(6)
 
 // 游戏状态
-const {
-  status,
-  userInput,
-} = toRefs(useUserInputHistory(new Date().toLocaleDateString()))
-const userInputResult = $computed(() => userInput.value.map(input => diff(answer, input)))
+const canPlay = $computed(() => !meta.value.passed && !meta.value.failed)
+
+const userInputResult = $computed(() => tries.value.map(input => diff(answer, input)))
 
 // 当前回答第几次
-const currentIndex = $computed(() => userInput.value.length)
+const currentIndex = $computed(() => tries.value.length)
 // 还剩几次
 const remainCount = $computed(() => count - currentIndex)
-// 当前的输入
-const currentInput = $(useStorage<string[]>('__user_current_input', []))
-// 当前选择的格子
-const currentSelectIndex = useStorage<number>('__user_current_select_index', 0)
 
-const markup = $ref('1234567890+-*/='.split(''))
 const digitInformation = $computed(() => getTipFromResult(userInputResult))
 // 用于底部显示,供用户参考
-const showTip = $computed<Array<IndexResult>>(() => markup.map((char, pos) => ({
+const showTip = $computed<Array<IndexResult>>(() => MARKUP.map((char, pos) => ({
   char,
   type: digitInformation.get(char) || 'unknown',
   pos,
 })))
 
 function changeCurrentSelectIndex(delta: number) {
-  if (status.value !== 'playing') { return }
-  currentSelectIndex.value! += delta
-  if (currentSelectIndex.value! < 0) {
-    currentSelectIndex.value! = 0
+  if (!canPlay) { return }
+  currentTryIndex.value! += delta
+  if (currentTryIndex.value! < 0) {
+    currentTryIndex.value! = 0
   }
-  if (currentSelectIndex.value! >= answer.length) {
-    currentSelectIndex.value! = answer.length - 1
+  if (currentTryIndex.value! >= answer.length) {
+    currentTryIndex.value! = answer.length - 1
   }
 }
 
 function handleChangeCurrent(item: Partial<IndexResult> & { char: string }, autoNext = true) {
-  if (status.value !== 'playing') { return }
-  currentInput[currentSelectIndex.value] = item.char
+  if (!canPlay) { return }
+  currentTry.value[currentTryIndex.value] = item.char
   if (autoNext) {
     changeCurrentSelectIndex(1)
   }
 }
 
 function handleInputEnter() {
-  if (status.value !== 'playing') { return }
-  if (currentInput.filter(item => item.length).length !== answer.length) {
+  if (!canPlay) { return }
+  if (currentTry.value.filter(item => item.length).length !== answer.length) {
     alert(`请输入完整, 长度必须是${answer.length}`)
     return
   }
 
-  const input = currentInput.join('')
-  userInput.value.push(input)
-
+  const input = currentTry.value.join('')
+  tries.value.push(input)
+  currentTry.value.length = 0
+  currentTryIndex.value = 0
   if (input === answer) {
     win()
-    status.value = 'success'
-    currentInput.length = 0
-    currentSelectIndex.value = 0
+    meta.value.passed = true
+
     return
   }
 
   if (currentIndex === count) {
-    nextTick(() => {
-      alert('猜的次数用完了!游戏结束了')
-    })
-    status.value = 'failure'
-    return
+    meta.value.failed = true
   }
-
-  // 清空!
-  currentInput.length = 0
-  currentSelectIndex.value = 0
 }
 
-function handleInputDelete() {
-  if (status.value !== 'playing') { return }
-  currentInput[currentSelectIndex.value] = ''
+function handleInputDelete(goBack = false) {
+  if (!canPlay) { return }
+  currentTry.value[currentTryIndex.value] = ''
+  if (goBack) {
+    changeCurrentSelectIndex(-1)
+  }
 }
 
-markup.forEach((val) => {
+MARKUP.forEach((val) => {
   onKeyStroke(val, () => {
     handleChangeCurrent({
       char: val,
@@ -106,7 +94,9 @@ markup.forEach((val) => {
 // 回车
 onKeyStroke('Enter', handleInputEnter)
 // Delete
-onKeyStroke('Delete', handleInputDelete)
+onKeyStroke('Delete', () => handleInputDelete())
+// 回退
+onKeyStroke('Backspace', () => handleInputDelete(true))
 
 </script>
 
@@ -143,7 +133,7 @@ onKeyStroke('Delete', handleInputDelete)
       </div>
       <!-- 正在猜的 -->
       <div
-        v-if="status === 'playing'"
+        v-if="canPlay"
         flex="~"
         items-center
         justify="center"
@@ -152,16 +142,16 @@ onKeyStroke('Delete', handleInputDelete)
           v-for="pos in answer.length"
           :key="pos"
           :class="{
-            'border-orange-400 border-2': currentSelectIndex === pos - 1 && status === 'playing',
+            'border-orange-400 border-2': currentTryIndex === pos - 1
           }"
           class="cell-btn"
-          @click.stop="currentSelectIndex = pos - 1"
+          @click.stop="currentTryIndex = pos - 1"
         >
-          <span>{{ currentInput[pos - 1] }}</span>
+          <span>{{ currentTry[pos - 1] }}</span>
         </div>
       </div>
       <!-- 剩余的 -->
-      <template v-if="status !== 'success' && remainCount > 0">
+      <template v-if="canPlay && remainCount > 0">
         <div
           v-for="i in remainCount"
           :key="i"
@@ -175,8 +165,14 @@ onKeyStroke('Delete', handleInputDelete)
         </div>
       </template>
       <template v-else>
-        <p text-3xl m="y-2">
-          {{ status === 'success' ? '你猜对了' : '你失败了!' }}
+        <p
+          text-3xl m="y-2"
+          :class="{
+            'text-green-500': meta.passed,
+            'text-red-500': meta.failed,
+          }"
+        >
+          {{ meta.passed ? '你猜对了' : '你失败了!' }}
         </p>
       </template>
     </div>
@@ -215,7 +211,7 @@ onKeyStroke('Delete', handleInputDelete)
           w="auto"
           p="x-2"
           class="cell-btn"
-          @click="handleInputDelete"
+          @click="handleInputDelete()"
         >
           DELETE
         </div>

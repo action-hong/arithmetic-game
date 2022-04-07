@@ -1,6 +1,23 @@
 import type { Options } from 'canvas-confetti'
 import confetti from 'canvas-confetti'
 
+export interface TriesMeta {
+  answer?: string
+  start?: number
+  end?: number
+  duration?: number
+  tries?: string[]
+  // 数字位置必须正确10+20=30, 不能是20+10=30
+  strict?: boolean
+  // 当前的输入, 还没有提交
+  currentTry?: string[]
+  currentTryIndex?: number
+  hint?: boolean
+  hintLevel?: number
+  passed?: boolean
+  failed?: boolean
+}
+
 const count = 200
 const defaults: Options = {
   origin: { y: 0.7 },
