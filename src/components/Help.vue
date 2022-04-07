@@ -6,8 +6,10 @@
     items-center
     justify="center"
   >
-    <div w="50% <sm:100%">
-      <p text="2xl" m-2>规则</p>
+    <div p="x-4" w="90% lg:33% md:50% sm:66%">
+      <p text="2xl" m-2>
+        规则
+      </p>
       <ul
         text="left"
         list="circle"
