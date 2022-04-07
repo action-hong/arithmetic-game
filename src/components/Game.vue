@@ -47,7 +47,7 @@ function handleChangeCurrent(item: Partial<IndexResult> & { char: string }, auto
 function handleInputEnter() {
   if (!canPlay) { return }
   if (currentTry.value.filter(item => item.length).length !== answer.value.length) {
-    alert(`请输入完整, 长度必须是${answer.value.length}`)
+    // TODO: 添加一个通知组件
     return
   }
 
