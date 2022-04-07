@@ -9,3 +9,14 @@ export function isDstObserved(date: Date) {
   const standardTimezoneOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset())
   return date.getTimezoneOffset() < standardTimezoneOffset
 }
+
+export function formatDate(data: Date) {
+  // yyyy-MM-dd
+  const pad = (n: number) => n < 10 ? `0${n}` : n
+  return `${data.getFullYear()}-${pad(data.getMonth() + 1)}-${pad(data.getDate())}`
+}
+
+export function calcSince(from: Date, to: Date) {
+  const adjustedNow = isDstObserved(to) ? new Date(+to + 3600000) : to
+  return Math.floor((+adjustedNow - +from) / 86400000)
+}

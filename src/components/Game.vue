@@ -200,6 +200,12 @@ onKeyStroke('Backspace', () => handleInputDelete(true))
         >
           {{ item.char }}
         </div>
+      </div>
+      <div
+        flex="~ wrap"
+        items-center
+        justify="center"
+      >
         <div
           bg-green-500
           w="auto"
