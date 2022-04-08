@@ -10,6 +10,7 @@ import {
 
 export default defineConfig({
   shortcuts: [
+    ['flex-block', 'flex items-center justify-center'],
     ['cell', 'rounded bg-gray-600 color-white w-8 h-8 m-1 flex justify-center items-center'],
     ['cell-btn', 'cell cursor-pointer hover:opacity-50'],
     ['btn', 'px-4 py-1 rounded inline-block bg-teal-600 text-white cursor-pointer hover:bg-teal-700 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50'],

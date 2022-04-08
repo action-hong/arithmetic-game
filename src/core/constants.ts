@@ -10,3 +10,6 @@ export const KEY_MARKUP = [
   ...MARKUP.filter(m => m !== '×' && m !== '÷'),
   ...SPECIAL_MARKUP,
 ]
+
+export const CUSTOM_TRIES_LIMIT_MIN = 3
+export const CUSTOM_TRIES_LIMIT_MAX = 10

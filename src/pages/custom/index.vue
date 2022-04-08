@@ -1,14 +1,33 @@
 <script lang="ts" setup>
-import { ANSWER_LENGTH, KEY_MARKUP, MARKUP, encodeEqual } from '~/core'
+import { ANSWER_LENGTH, CUSTOM_TRIES_LIMIT_MAX, CUSTOM_TRIES_LIMIT_MIN, KEY_MARKUP, MARKUP, TRIES_LIMIT, encodeEqual } from '~/core'
 import { notify } from '~/state'
 
+// 猜的次数
 const count = ref(ANSWER_LENGTH)
 const answer = ref<string[]>([])
+const tryLimit = ref(TRIES_LIMIT)
+
+const min = $ref(CUSTOM_TRIES_LIMIT_MIN)
+const max = $ref(CUSTOM_TRIES_LIMIT_MAX)
+
+function changeTryLimit(value: number) {
+  tryLimit.value += value
+  if (tryLimit.value < min) {
+    tryLimit.value = min
+  }
+  if (tryLimit.value > max) {
+    tryLimit.value = max
+  }
+}
 
 const currentIndex = ref(0)
 
 const url = $computed(() => {
-  return `${window.location.origin}/custom/${encodeEqual(answer.value.join(''))}`
+  let str = `${window.location.origin}/custom/${encodeEqual(answer.value.join(''))}`
+  if (tryLimit.value !== TRIES_LIMIT) {
+    str += `?tryLimit=${tryLimit.value}`
+  }
+  return str
 })
 const { copy } = useClipboard()
 
@@ -30,10 +49,11 @@ function handleChangeCurrent(item: string, autoNext = true) {
 }
 
 function handleInputEnter() {
-  // if (answer.value.filter(item => item.length).length !== answer.value.length) {
-  //   // 有错误
-  //   notify('请输入正确的四则运算')
-  // }
+  if (answer.value.filter(item => item.length).length !== count.value) {
+    // 有错误
+    notify('请输入正确的四则运算')
+    return
+  }
 
   copy(url)
   notify('已复制链接到粘贴板, 分享给你的朋友吧~')
@@ -72,6 +92,32 @@ onKeyStroke('Backspace', () => handleInputDelete(true))
 </script>
 
 <template>
+  <div
+    class="flex-block"
+    flex="gap-2"
+  >
+    <span>对方能猜</span>
+    <span w="3">{{ tryLimit }}</span>
+    <span>次</span>
+    <div
+      class="btn"
+      :class="{
+        'cursor-not-allowed': tryLimit === min
+      }"
+      @click="changeTryLimit(-1)"
+    >
+      -
+    </div>
+    <div
+      class="btn"
+      :class="{
+        'cursor-not-allowed': tryLimit === max
+      }"
+      @click="changeTryLimit(1)"
+    >
+      +
+    </div>
+  </div>
   <p m2>
     请尝试输入你想要的四则运算
   </p>

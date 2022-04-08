@@ -5,8 +5,16 @@ import { KEY_MARKUP, MARKUP, diff, getTipFromResult, win } from '~/core'
 import { currentTry, currentTryIndex, meta, tries } from '~/storage'
 import { answer, isDev } from '~/state'
 
+const route = useRoute()
+
 // 总共可以猜的次数
-const count = $ref(6)
+const count = ref(6)
+
+watch(() => route.query.tryLimit, (value) => {
+  if (value && typeof value === 'string') {
+    count.value = Math.max(parseInt(value, 10), 3)
+  }
+}, { immediate: true })
 
 // 游戏状态
 const canPlay = $computed(() => !meta.value.passed && !meta.value.failed)
@@ -16,7 +24,7 @@ const userInputResult = $computed(() => tries.value.map(input => diff(answer.val
 // 当前回答第几次
 const currentIndex = $computed(() => tries.value.length)
 // 还剩几次
-const remainCount = $computed(() => count - currentIndex)
+const remainCount = $computed(() => count.value - currentIndex)
 
 const digitInformation = $computed(() => getTipFromResult(userInputResult))
 // 用于底部显示,供用户参考
@@ -63,7 +71,7 @@ function handleInputEnter() {
     return
   }
 
-  if (currentIndex === count) {
+  if (currentIndex === count.value) {
     meta.value.failed = true
   }
 }
@@ -156,10 +164,10 @@ onKeyStroke('Backspace', () => handleInputDelete(true))
           <span>{{ currentTry[pos - 1] }}</span>
         </div>
       </div>
-      <!-- 剩余的 -->
-      <template v-if="canPlay && remainCount > 0">
+      <!-- 剩余的, 注意要减一, 减去的1行是正在猜的 -->
+      <template v-if="canPlay">
         <div
-          v-for="i in remainCount"
+          v-for="i in (remainCount - 1)"
           :key="i"
           flex="~"
         >
