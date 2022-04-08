@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { IndexResult } from '~/core'
-import { MARKUP, diff, getTipFromResult, win } from '~/core'
+import { KEY_MARKUP, MARKUP, diff, getTipFromResult, win } from '~/core'
+
 import { currentTry, currentTryIndex, meta, tries } from '~/storage'
 import { answer, isDev } from '~/state'
 
@@ -75,10 +76,12 @@ function handleInputDelete(goBack = false) {
   }
 }
 
-MARKUP.forEach((val) => {
-  onKeyStroke(val, () => {
+KEY_MARKUP.forEach((val) => {
+  const key = typeof val === 'string' ? val : val[0]
+  const value = typeof val === 'string' ? val : val[1]
+  onKeyStroke(key, () => {
     handleChangeCurrent({
-      char: val,
+      char: value,
     })
   })
 })
@@ -111,7 +114,7 @@ onKeyStroke('Backspace', () => handleInputDelete(true))
     <p v-if="isDev">
       {{ answer }}
     </p>
-    <div py-4 />
+    <div py-2 />
     <div flex="~ col" items-center>
       <!-- 已经猜的次数: -->
       <div

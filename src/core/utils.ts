@@ -32,12 +32,12 @@ const OP_MAP = [
 ] as const
 
 const OP_MAP_REVERSE = [
-  ['j', '+'],
-  ['k', '-'],
-  ['l', '×'],
-  ['m', '÷'],
-  ['n', '='],
-]
+  [/j/g, '+'],
+  [/k/g, '-'],
+  [/l/g, '×'],
+  [/m/g, '÷'],
+  [/n/g, '='],
+] as const
 
 export function decodeEqual(str: string) {
   str = atob(str)

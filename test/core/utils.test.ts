@@ -8,5 +8,8 @@ describe('core/utils', () => {
     expect(t1).toMatchInlineSnapshot('"MWoyazNsNG01bjY="')
     const t2 = decodeEqual(t1)
     expect(t2).toBe(origin)
+
+    const o2 = '1+1+3-1-1×2×2÷1÷1=1'
+    expect(decodeEqual(encodeEqual(o2))).toBe(o2)
   })
 })

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ANSWER_LENGTH, MARKUP, encodeEqual } from '~/core'
+import { ANSWER_LENGTH, KEY_MARKUP, MARKUP, encodeEqual } from '~/core'
 import { notify } from '~/state'
 
 const count = ref(ANSWER_LENGTH)
@@ -46,9 +46,11 @@ function handleInputDelete(goBack = true) {
   }
 }
 
-MARKUP.forEach((val) => {
-  onKeyStroke(val, () => {
-    handleChangeCurrent(val)
+KEY_MARKUP.forEach((val) => {
+  const key = typeof val === 'string' ? val : val[0]
+  const value = typeof val === 'string' ? val : val[1]
+  onKeyStroke(key, () => {
+    handleChangeCurrent(value)
   })
 })
 
