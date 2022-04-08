@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { decodeEqual } from './core';
+import { decodeEqual } from './core'
 import { customAnswer, dayNo, daySince, gameType } from './state'
 const route = useRoute()
 
