@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { isDark, toggleDark } from '~/composables'
-import { showHelpDialog } from '~/state'
+import { showHelpDialog, showSetting } from '~/state'
 
 const router = useRouter()
 const showBack = computed(() => router.currentRoute.value.path !== '/')
@@ -39,6 +39,13 @@ const showBack = computed(() => router.currentRoute.value.path !== '/')
         href="https://github.com/action-hong"
         target="_blank"
         title="作者"
+      />
+
+      <div
+        class="icon-btn"
+        i-carbon-settings
+        title="设置"
+        @click="showSetting = true"
       />
 
       <div

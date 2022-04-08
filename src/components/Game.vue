@@ -3,7 +3,7 @@ import type { IndexResult } from '~/core'
 import { KEY_MARKUP, MARKUP, checkGame, diff, getTipFromResult, win } from '~/core'
 
 import { currentTry, currentTryIndex, meta, tries } from '~/storage'
-import { answer, isDev, notify } from '~/state'
+import { answer, enableStrictMode, isDev, notify } from '~/state'
 
 const route = useRoute()
 
@@ -64,17 +64,20 @@ function handleInputEnter() {
   }
 
   const input = currentTry.value.join('')
-  const {
-    error,
-    code,
-  } = checkGame(input)
 
-  if (code !== 0) {
-    notify({
-      type: 'error',
-      message: error,
-    })
-    return
+  if (enableStrictMode.value) {
+    const {
+      error,
+      code,
+    } = checkGame(input)
+
+    if (code !== 0) {
+      notify({
+        type: 'error',
+        message: error,
+      })
+      return
+    }
   }
 
   tries.value.push(input)

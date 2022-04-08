@@ -43,3 +43,7 @@ export function notify(option: string | NotifyOption) {
   }
   showNotify.value = true
 }
+
+// 设置
+export const showSetting = ref(false)
+export const enableStrictMode = useStorage('__setting_strict', false)
