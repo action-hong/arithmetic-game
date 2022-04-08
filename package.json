@@ -42,7 +42,7 @@
     "rules": {
       "curly": [
         "error",
-        "all"
+        "multi-line"
       ]
     },
     "ignorePatterns": [

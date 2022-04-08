@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { IndexResult } from '~/core'
-import { KEY_MARKUP, MARKUP, diff, getTipFromResult, win } from '~/core'
+import { KEY_MARKUP, MARKUP, checkGame, diff, getTipFromResult, win } from '~/core'
 
 import { currentTry, currentTryIndex, meta, tries } from '~/storage'
-import { answer, isDev } from '~/state'
+import { answer, isDev, notify } from '~/state'
 
 const route = useRoute()
 
@@ -56,18 +56,33 @@ function handleChangeCurrent(item: Partial<IndexResult> & { char: string }, auto
 function handleInputEnter() {
   if (!canPlay) { return }
   if (currentTry.value.filter(item => item.length).length !== answer.value.length) {
-    // TODO: 添加一个通知组件
+    notify({
+      type: 'warning',
+      message: '请输入完整的等式',
+    })
     return
   }
 
   const input = currentTry.value.join('')
+  const {
+    error,
+    code,
+  } = checkGame(input)
+
+  if (code !== 0) {
+    notify({
+      type: 'error',
+      message: error,
+    })
+    return
+  }
+
   tries.value.push(input)
   currentTry.value.length = 0
   currentTryIndex.value = 0
   if (input === answer.value) {
     win()
     meta.value.passed = true
-
     return
   }
 

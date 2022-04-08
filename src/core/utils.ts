@@ -53,3 +53,31 @@ export function encodeEqual(str: string) {
   })
   return btoa(str)
 }
+
+export function checkGame(str: string) {
+  if (str.split('').filter(c => c === '=').length !== 1) {
+    return {
+      error: '必须有一个等号',
+      code: 1,
+    }
+  }
+
+  str = str.replace('=', '==')
+    .replace(/×/g, '*')
+    .replace(/÷/g, '/')
+
+  try {
+    // eslint-disable-next-line no-eval
+    const result = eval(str)
+    return {
+      error: result ? '' : '表达式不正确',
+      code: result ? 0 : 2,
+    }
+  }
+  catch (error) {
+    return {
+      error: `表达式不正确：${(error as Error).message}`,
+      code: 2,
+    }
+  }
+}

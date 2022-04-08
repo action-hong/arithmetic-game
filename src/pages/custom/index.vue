@@ -1,16 +1,17 @@
 <script lang="ts" setup>
-import { ANSWER_LENGTH, CUSTOM_ANSWER_LENGTH_MAX, CUSTOM_ANSWER_LENGTH_MIN, CUSTOM_TRIES_LIMIT_MAX, CUSTOM_TRIES_LIMIT_MIN, KEY_MARKUP, MARKUP, TRIES_LIMIT, encodeEqual } from '~/core'
+import { ANSWER_LENGTH, CUSTOM_ANSWER_LENGTH_MAX, CUSTOM_ANSWER_LENGTH_MIN, CUSTOM_TRIES_LIMIT_MAX, CUSTOM_TRIES_LIMIT_MIN, KEY_MARKUP, MARKUP, TRIES_LIMIT, checkGame, encodeEqual } from '~/core'
 import { notify } from '~/state'
 
 const count = ref(ANSWER_LENGTH)
-const answer = ref<string[]>([])
+const arr = ref<string[]>([])
+const answer = $computed(() => arr.value.slice(0, count.value).join(''))
 // 猜的次数
 const tryLimit = ref(TRIES_LIMIT)
 
 const currentIndex = ref(0)
 
 const url = $computed(() => {
-  let str = `${window.location.origin}/custom/${encodeEqual(answer.value.join(''))}`
+  let str = `${window.location.origin}/custom/${encodeEqual(answer)}`
   if (tryLimit.value !== TRIES_LIMIT) {
     str += `?tryLimit=${tryLimit.value}`
   }
@@ -29,25 +30,45 @@ function changeCurrentSelectIndex(delta: number) {
 }
 
 function handleChangeCurrent(item: string, autoNext = true) {
-  answer.value[currentIndex.value] = item
+  arr.value[currentIndex.value] = item
   if (autoNext) {
     changeCurrentSelectIndex(1)
   }
 }
 
 function handleInputEnter() {
-  if (answer.value.filter(item => item.length).length !== count.value) {
-    // 有错误
-    notify('请输入正确的四则运算')
+  if (answer.length !== count.value) {
+    notify({
+      type: 'warning',
+      message: '请输入完整的等式',
+    })
+    return
+  }
+
+  const {
+    error,
+    code,
+  } = checkGame(answer)
+
+  if (code !== 0) {
+    notify({
+      type: 'error',
+      message: error,
+    })
     return
   }
 
   copy(url)
-  notify('已复制链接到粘贴板, 分享给你的朋友吧~')
+    .then(() => {
+      notify({
+        type: 'success',
+        message: '复制成功',
+      })
+    })
 }
 
 function handleInputDelete(goBack = true) {
-  answer.value[currentIndex.value] = ''
+  arr.value[currentIndex.value] = ''
   if (goBack) {
     changeCurrentSelectIndex(-1)
   }
