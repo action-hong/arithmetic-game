@@ -13,3 +13,6 @@ export const KEY_MARKUP = [
 
 export const CUSTOM_TRIES_LIMIT_MIN = 3
 export const CUSTOM_TRIES_LIMIT_MAX = 10
+
+export const CUSTOM_ANSWER_LENGTH_MIN = 3
+export const CUSTOM_ANSWER_LENGTH_MAX = 10

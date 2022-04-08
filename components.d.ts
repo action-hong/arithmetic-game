@@ -11,6 +11,7 @@ declare module 'vue' {
     Modal: typeof import('./src/components/Modal.vue')['default']
     ModalLayer: typeof import('./src/components/ModalLayer.vue')['default']
     Notification: typeof import('./src/components/Notification.vue')['default']
+    NumberRange: typeof import('./src/components/NumberRange.vue')['default']
   }
 }
 

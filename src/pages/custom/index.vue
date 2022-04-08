@@ -1,24 +1,11 @@
 <script lang="ts" setup>
-import { ANSWER_LENGTH, CUSTOM_TRIES_LIMIT_MAX, CUSTOM_TRIES_LIMIT_MIN, KEY_MARKUP, MARKUP, TRIES_LIMIT, encodeEqual } from '~/core'
+import { ANSWER_LENGTH, CUSTOM_ANSWER_LENGTH_MAX, CUSTOM_ANSWER_LENGTH_MIN, CUSTOM_TRIES_LIMIT_MAX, CUSTOM_TRIES_LIMIT_MIN, KEY_MARKUP, MARKUP, TRIES_LIMIT, encodeEqual } from '~/core'
 import { notify } from '~/state'
 
-// 猜的次数
 const count = ref(ANSWER_LENGTH)
 const answer = ref<string[]>([])
+// 猜的次数
 const tryLimit = ref(TRIES_LIMIT)
-
-const min = $ref(CUSTOM_TRIES_LIMIT_MIN)
-const max = $ref(CUSTOM_TRIES_LIMIT_MAX)
-
-function changeTryLimit(value: number) {
-  tryLimit.value += value
-  if (tryLimit.value < min) {
-    tryLimit.value = min
-  }
-  if (tryLimit.value > max) {
-    tryLimit.value = max
-  }
-}
 
 const currentIndex = ref(0)
 
@@ -92,32 +79,23 @@ onKeyStroke('Backspace', () => handleInputDelete(true))
 </script>
 
 <template>
-  <div
-    class="flex-block"
-    flex="gap-2"
+  <NumberRange
+    v-slot="{ value }"
+    v-model="tryLimit"
+    :min="CUSTOM_TRIES_LIMIT_MIN"
+    :max="CUSTOM_TRIES_LIMIT_MAX"
+    title="猜的次数"
   >
     <span>对方能猜</span>
-    <span w="3">{{ tryLimit }}</span>
+    <span w="3">{{ value }}</span>
     <span>次</span>
-    <div
-      class="btn"
-      :class="{
-        'cursor-not-allowed': tryLimit === min
-      }"
-      @click="changeTryLimit(-1)"
-    >
-      -
-    </div>
-    <div
-      class="btn"
-      :class="{
-        'cursor-not-allowed': tryLimit === max
-      }"
-      @click="changeTryLimit(1)"
-    >
-      +
-    </div>
-  </div>
+  </NumberRange>
+  <NumberRange
+    v-model="count"
+    :min="CUSTOM_ANSWER_LENGTH_MIN"
+    :max="CUSTOM_ANSWER_LENGTH_MAX"
+    title="式子的长度"
+  />
   <p m2>
     请尝试输入你想要的四则运算
   </p>
