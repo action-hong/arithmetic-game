@@ -20,3 +20,36 @@ export function calcSince(from: Date, to: Date) {
   const adjustedNow = isDstObserved(to) ? new Date(+to + 3600000) : to
   return Math.floor((+adjustedNow - +from) / 86400000)
 }
+
+const OP_MAP = [
+  [/\+/g, 'j'],
+  [/\-/g, 'k'],
+  [/\×/g, 'l'],
+  [/\÷/g, 'm'],
+  [/\=/g, 'n'],
+  [/\*/g, 'l'],
+  [/\//g, 'm'],
+] as const
+
+const OP_MAP_REVERSE = [
+  ['j', '+'],
+  ['k', '-'],
+  ['l', '×'],
+  ['m', '÷'],
+  ['n', '='],
+]
+
+export function decodeEqual(str: string) {
+  str = atob(str)
+  OP_MAP_REVERSE.forEach(([op, code]) => {
+    str = str.replace(op, code)
+  })
+  return str
+}
+
+export function encodeEqual(str: string) {
+  OP_MAP.forEach(([op, code]) => {
+    str = str.replace(op, code)
+  })
+  return btoa(str)
+}

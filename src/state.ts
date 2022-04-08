@@ -22,3 +22,24 @@ export const isDev = import.meta.hot || params.get('dev') === 'hey'
 
 export const startDate = ref(START_DATE)
 export const endDate = ref(new Date(+START_DATE + 86400000 * (answers.length - 1)))
+
+// 通知
+export const showNotify = ref(false)
+export const notifyText = ref('')
+export type NotifyType = 'success' | 'warning' | 'error' | 'info'
+export interface NotifyOption {
+  type?: NotifyType
+  message: string
+}
+export const notifyType = ref<NotifyType>('info')
+export function notify(option: string | NotifyOption) {
+  if (typeof option === 'string') {
+    notifyText.value = option
+    notifyType.value = 'info'
+  }
+  else {
+    notifyText.value = option.message
+    notifyType.value = option.type || 'info'
+  }
+  showNotify.value = true
+}

@@ -10,6 +10,7 @@ declare module 'vue' {
     Help: typeof import('./src/components/Help.vue')['default']
     Modal: typeof import('./src/components/Modal.vue')['default']
     ModalLayer: typeof import('./src/components/ModalLayer.vue')['default']
+    Notification: typeof import('./src/components/Notification.vue')['default']
   }
 }
 

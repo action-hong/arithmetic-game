@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { decodeEqual } from './core';
 import { customAnswer, dayNo, daySince, gameType } from './state'
 const route = useRoute()
 
@@ -10,9 +11,9 @@ watch(() => route, (val) => {
     dayNo.value = daySince.value
   }
   if (val.params.answer && typeof val.params.answer === 'string') {
-    // TODO: 校验合法性
     gameType.value = 'custom'
-    customAnswer.value = atob(val.params.answer)
+    customAnswer.value = decodeEqual(val.params.answer)
+    // TODO: 校验合法性
   }
   else {
     gameType.value = 'classic'

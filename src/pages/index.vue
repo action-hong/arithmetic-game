@@ -8,6 +8,9 @@
     <router-link to="/history" class="type">
       <span>历代真题</span>
     </router-link>
+    <router-link to="/custom" class="type">
+      <span>自定义题目</span>
+    </router-link>
   </div>
 </template>
 

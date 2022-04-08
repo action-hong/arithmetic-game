@@ -15,10 +15,17 @@ const showBack = computed(() => router.currentRoute.value.path !== '/')
       i-carbon-arrow-left
       @click="router.go(-1)"
     />
+    <router-link
+      class="icon-btn"
+      i-carbon-home
+      to="/"
+      title="返回首页"
+    />
     <div
       flex="~ 1"
       justify="end"
       gap-2
+      title="深色/浅色模式"
     >
       <button class="icon-btn !outline-none" @click="toggleDark()">
         <div v-if="isDark" i-carbon-moon />
@@ -31,12 +38,13 @@ const showBack = computed(() => router.currentRoute.value.path !== '/')
         rel="noreferrer"
         href="https://github.com/action-hong"
         target="_blank"
-        title="GitHub"
+        title="作者"
       />
 
       <div
         class="icon-btn"
         i-carbon-help
+        title="帮助"
         @click="showHelpDialog = true"
       />
     </div>
