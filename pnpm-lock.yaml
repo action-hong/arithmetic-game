@@ -12,6 +12,7 @@ specifiers:
   canvas-confetti: ^1.5.1
   eslint: ^8.12.0
   jsdom: ^19.0.0
+  minimist: ^1.2.6
   pnpm: ^6.32.4
   typescript: ^4.6.3
   unocss: ^0.30.11
@@ -40,6 +41,7 @@ devDependencies:
   '@vue/test-utils': 2.0.0-rc.18_vue@3.2.31
   eslint: 8.12.0
   jsdom: 19.0.0
+  minimist: 1.2.6
   pnpm: 6.32.4
   typescript: 4.6.3
   unocss: 0.30.11
@@ -2521,7 +2523,7 @@ packages:
     resolution: {integrity: sha512-aKS4WQjPenRxiQsC93MNfjx+nbF4PAdYzmd/1JIj8HYzqfbu86beTuNgXDzPknWk0n0uARlyewZo4s++ES36Ow==}
     hasBin: true
     dependencies:
-      minimist: 1.2.5
+      minimist: 1.2.6
     dev: true
 
   /json5/2.2.0:
@@ -2529,7 +2531,7 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
     dependencies:
-      minimist: 1.2.5
+      minimist: 1.2.6
     dev: true
 
   /jsonc-eslint-parser/2.1.0:
@@ -2722,8 +2724,8 @@ packages:
       brace-expansion: 2.0.1
     dev: true
 
-  /minimist/1.2.5:
-    resolution: {integrity: sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==}
+  /minimist/1.2.6:
+    resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
     dev: true
 
   /mrmime/1.0.0:
@@ -3418,7 +3420,7 @@ packages:
     dependencies:
       '@types/json5': 0.0.29
       json5: 1.0.1
-      minimist: 1.2.5
+      minimist: 1.2.6
       strip-bom: 3.0.0
     dev: true
 

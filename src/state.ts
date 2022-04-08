@@ -1,4 +1,4 @@
-import { getAnswerOfDay, answers } from './answers'
+import { answers, getAnswerOfDay } from './answers'
 import { START_DATE, calcSince } from './core'
 
 // 类型, 天数来判断

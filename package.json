@@ -26,6 +26,7 @@
     "@vue/test-utils": "^2.0.0-rc.18",
     "eslint": "^8.12.0",
     "jsdom": "^19.0.0",
+    "minimist": "^1.2.6",
     "pnpm": "^6.32.4",
     "typescript": "^4.6.3",
     "unocss": "^0.30.11",
@@ -43,6 +44,10 @@
         "error",
         "all"
       ]
-    }
+    },
+    "ignorePatterns": [
+      "build/**/*.json",
+      "src/answers/data/**/*.json"
+    ]
   }
 }
