@@ -24,6 +24,31 @@ export const meta = computed({
   },
 })
 
+export function markStart() {
+  if (meta.value.end) { return }
+  if (!meta.value.start) { meta.value.start = Date.now() }
+}
+
+export function markEnd() {
+  if (meta.value.end) { return }
+
+  if (!meta.value.duration) { meta.value.duration = 0 }
+
+  meta.value.end = Date.now()
+  if (meta.value.start) { meta.value.duration += meta.value.end - meta.value.start }
+}
+
+export function pauseTimer() {
+  if (meta.value.end) { return }
+
+  if (!meta.value.duration) { meta.value.duration = 0 }
+
+  if (meta.value.start) {
+    meta.value.duration += Date.now() - meta.value.start
+    meta.value.start = undefined
+  }
+}
+
 export const tries = computed({
   get() {
     if (!meta.value.tries) {

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { IndexResult } from '~/core'
-import { KEY_MARKUP, MARKUP, checkGame, diff, getTipFromResult, win } from '~/core'
+import { KEY_MARKUP, MARKUP, checkGame, diff, getTipFromResult, millisToFormatTime, win } from '~/core'
 
-import { currentTry, currentTryIndex, meta, tries } from '~/storage'
-import { answer, enableStrictMode, isDev, notify } from '~/state'
+import { currentTry, currentTryIndex, markStart, meta, tries } from '~/storage'
+import { answer, autoComplete, enableStrictMode, isDev, notify } from '~/state'
 
 const route = useRoute()
 
@@ -47,6 +47,7 @@ function changeCurrentSelectIndex(delta: number) {
 
 function handleChangeCurrent(item: Partial<IndexResult> & { char: string }, autoNext = true) {
   if (!canPlay) { return }
+  markStart()
   currentTry.value[currentTryIndex.value] = item.char
   if (autoNext) {
     changeCurrentSelectIndex(1)
@@ -91,6 +92,17 @@ function handleInputEnter() {
 
   if (currentIndex === count.value) {
     meta.value.failed = true
+    return
+  }
+
+  // 自动补齐
+  if (autoComplete.value) {
+    // 找出所有正确位置的数字
+    userInputResult.flat().filter(item => item.type === 'correct').forEach((item) => {
+      const { pos, char } = item
+      currentTry.value[pos] = char
+    })
+    currentTryIndex.value = currentTry.value.findIndex(item => item === undefined)
   }
 }
 
@@ -126,6 +138,9 @@ onKeyStroke('Enter', handleInputEnter)
 onKeyStroke('Delete', () => handleInputDelete())
 // 回退
 onKeyStroke('Backspace', () => handleInputDelete(true))
+
+// 花费的时间
+const duration = computed(() => millisToFormatTime(meta.value.duration))
 
 </script>
 
@@ -241,5 +256,8 @@ onKeyStroke('Backspace', () => handleInputDelete(true))
         </div>
       </div>
     </div>
+    <p v-if="meta.passed" op-50 text="gray-500">
+      耗时：{{ duration }}
+    </p>
   </div>
 </template>

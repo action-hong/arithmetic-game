@@ -1,5 +1,5 @@
 import { answers, getAnswerOfDay } from './answers'
-import { START_DATE, calcSince } from './core'
+import { START_DATE, calcSince, calcTimeToNextDay } from './core'
 
 // 类型, 天数来判断
 export type GameType = 'classic' | 'custom'
@@ -8,6 +8,9 @@ export const route = useRoute()
 export const now = useNow({ interval: 1000 })
 export const daySince = useDebounce(computed(() => {
   return calcSince(START_DATE, now.value)
+}))
+export const timeToNextDay = useDebounce(computed(() => {
+  return calcTimeToNextDay(now.value)
 }))
 export const dayNo = ref(daySince.value)
 
@@ -47,3 +50,4 @@ export function notify(option: string | NotifyOption) {
 // 设置
 export const showSetting = ref(false)
 export const enableStrictMode = useStorage('__setting_strict', false)
+export const autoComplete = useStorage('__setting_autoComplete', false)

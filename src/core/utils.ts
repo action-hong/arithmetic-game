@@ -10,15 +10,29 @@ export function isDstObserved(date: Date) {
   return date.getTimezoneOffset() < standardTimezoneOffset
 }
 
+const pad = (n: number) => n < 10 ? `0${n}` : n
+
 export function formatDate(data: Date) {
   // yyyy-MM-dd
-  const pad = (n: number) => n < 10 ? `0${n}` : n
   return `${data.getFullYear()}-${pad(data.getMonth() + 1)}-${pad(data.getDate())}`
 }
 
 export function calcSince(from: Date, to: Date) {
   const adjustedNow = isDstObserved(to) ? new Date(+to + 3600000) : to
   return Math.floor((+adjustedNow - +from) / 86400000)
+}
+
+export function calcTimeToNextDay(from: Date) {
+  const tomorrow = new Date(from.getFullYear(), from.getMonth(), from.getDate() + 1)
+  const time = +tomorrow - +from
+  return millisToFormatTime(time)
+}
+
+export function millisToFormatTime(millis: number) {
+  const hour = Math.floor(millis / 3600000)
+  const minutes = Math.floor(millis / 60000)
+  const seconds = Math.floor((millis % 60000) / 1000)
+  return `${hour === 0 ? '' : `${hour}时`}${minutes === 0 ? '' : `${pad(minutes)}分`}${pad(seconds)}秒`
 }
 
 const OP_MAP = [
