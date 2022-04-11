@@ -143,34 +143,12 @@ onKeyStroke('Backspace', () => handleInputDelete(true))
     <div py-2 />
     <div flex="~ col" items-center>
       <!-- 已经猜的次数: -->
-      <div
+      <CellRow
         v-for="(row, index) in userInputResult"
         :key="index"
-        flex="~"
-        items-center
-        justify="center"
-      >
-        <!-- <div
-          v-for="(item, idx) in row"
-          :key="idx"
-          class="cell"
-          :class="{
-            'bg-green-500': item.type === 'correct',
-            'bg-red-500': item.type === 'wrong',
-            'bg-orange-400': item.type === 'wrong position',
-          }"
-        >
-          <span>{{ item.char }}</span>
-        </div> -->
-        <Cell
-          v-for="(item, idx) in row"
-          :key="idx"
-          :idx="idx"
-          :animated="true"
-          :char="item.char"
-          :type="item.type"
-        />
-      </div>
+        :results="row"
+        :animated="false"
+      />
       <!-- 正在猜的 -->
       <div
         v-if="canPlay"

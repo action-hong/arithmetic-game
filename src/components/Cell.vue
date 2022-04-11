@@ -39,7 +39,7 @@ watchEffect(() => {
       }"
       class="back flex-block"
       :style="{
-        'transition-delay': (300 * idx) + 'ms'
+        'transition-delay': ((300 + Math.random() * 50) * idx) + 'ms'
       }"
     >
       {{ char }}
@@ -53,7 +53,7 @@ watchEffect(() => {
         'revealed': flip
       }"
       :style="{
-        'transition-delay': (300 * idx) + 'ms'
+        'transition-delay': ((300 + Math.random() * 50) * idx) + 'ms'
       }"
       class="front flex-block"
     >
