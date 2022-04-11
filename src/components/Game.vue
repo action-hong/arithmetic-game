@@ -150,7 +150,7 @@ onKeyStroke('Backspace', () => handleInputDelete(true))
         items-center
         justify="center"
       >
-        <div
+        <!-- <div
           v-for="(item, idx) in row"
           :key="idx"
           class="cell"
@@ -161,7 +161,15 @@ onKeyStroke('Backspace', () => handleInputDelete(true))
           }"
         >
           <span>{{ item.char }}</span>
-        </div>
+        </div> -->
+        <Cell
+          v-for="(item, idx) in row"
+          :key="idx"
+          :idx="idx"
+          :animated="true"
+          :char="item.char"
+          :type="item.type"
+        />
       </div>
       <!-- 正在猜的 -->
       <div
