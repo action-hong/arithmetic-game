@@ -1,6 +1,6 @@
 const fs = require('fs')
 const minimist = require('minimist')
-const data = require('./answers.json')
+const data = require('./data.json')
 
 const args = minimist(process.argv.slice(2))
 

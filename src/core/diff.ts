@@ -46,6 +46,8 @@ export function diff(answer: string, input: string): Array<IndexResult> {
   return result
 }
 
+const typeOrder: IndexResultType[] = ['correct', 'wrong position', 'wrong', 'unknown']
+
 export function getTipFromResult(result: Array<Array<IndexResult>>) {
   const map = new Map<string, IndexResultType>()
   result.forEach((arr) => {
@@ -55,7 +57,9 @@ export function getTipFromResult(result: Array<Array<IndexResult>>) {
       }
       else {
         const currentType = acc.get(item.char)
-        if (currentType !== 'correct' && item.type === 'wrong') {
+        const currentIndex = typeOrder.findIndex(item => item === currentType)
+        const newIndex = typeOrder.findIndex(key => key === item.type)
+        if (newIndex < currentIndex && newIndex >= 0) {
           acc.set(item.char, item.type)
         }
       }

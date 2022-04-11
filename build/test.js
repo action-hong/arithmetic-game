@@ -3,7 +3,17 @@ function main() {
   // 等号在第四位
   equalIn4(result)
   equalIn5(result)
-  require('fs').writeFileSync('./build/data.json', JSON.stringify(result, null, 2))
+  require('fs').writeFileSync('./build/data.json', JSON.stringify((shuffle(result)), null, 2))
+}
+
+function shuffle(arr) {
+  const result = []
+  while (arr.length) {
+    const index = Math.floor(Math.random() * arr.length)
+    result.push(arr[index])
+    arr.splice(index, 1)
+  }
+  return result
 }
 
 function equalIn4(result) {
@@ -19,7 +29,7 @@ function equalIn4(result) {
   for (let i = 2; i < 10; i++) {
     const min = Math.floor(100 / i)
     const max = Math.floor(999 / i)
-    for (let j = min; j <= max; j++) {
+    for (let j = min; j <= max && j < 100; j++) {
       result.push(`${i}×${j}=${i * j}`)
       result.push(`${j}×${i}=${i * j}`)
     }
@@ -54,7 +64,7 @@ function equalIn5(result) {
   for (let i = 2; i < 10; i++) {
     const min = Math.floor(100 / i)
     const max = Math.floor(999 / i)
-    for (let j = min; j <= max; j++) {
+    for (let j = min; j <= max && j < 100; j++) {
       result.push(`${i * j}/${i}=${j}`)
     }
   }
