@@ -45,7 +45,7 @@ const result3 = getResult('5×24=120', 5, 'wrong')
           "=" 好右边只可能是一个数, 不能是一个计算式子
         </li>
         <li>
-          注意计算符号的优先级
+          注意计算符号的优先级，先乘除后加减
         </li>
       </ul>
       <CellRow
@@ -54,7 +54,7 @@ const result3 = getResult('5×24=120', 5, 'wrong')
         :animated="false"
       />
       <p m-y2>
-        <span text="green-500">9</span>在答案中，且在正确的位置
+        <span text="green-500">5</span>在答案中，且在正确的位置
       </p>
       <CellRow
         :key="index"
@@ -70,7 +70,7 @@ const result3 = getResult('5×24=120', 5, 'wrong')
         :animated="false"
       />
       <p m-y2>
-        <span text="red-500">5</span>不再答案中
+        <span text="red-500">1</span>不再答案中
       </p>
     </div>
   </div>
