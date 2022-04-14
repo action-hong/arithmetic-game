@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { IndexResult } from '~/core'
+import { answerEqual, IndexResult } from '~/core'
 import { KEY_MARKUP, MARKUP, checkGame, diff, getTipFromResult, millisToFormatTime, win } from '~/core'
 
 import { currentTry, currentTryIndex, markStart, meta, tries } from '~/storage'
@@ -84,7 +84,7 @@ function handleInputEnter() {
   tries.value.push(input)
   currentTry.value.length = 0
   currentTryIndex.value = 0
-  if (input === answer.value) {
+  if (answerEqual(input, answer.value)) {
     win()
     meta.value.passed = true
     return

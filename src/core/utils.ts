@@ -30,7 +30,7 @@ export function calcTimeToNextDay(from: Date) {
 
 export function millisToFormatTime(millis: number) {
   const hour = Math.floor(millis / 3600000)
-  const minutes = Math.floor(millis / 60000)
+  const minutes = Math.floor((millis % 3600000) / 60000)
   const seconds = Math.floor((millis % 60000) / 1000)
   return `${hour === 0 ? '' : `${hour}时`}${minutes === 0 ? '' : `${pad(minutes)}分`}${pad(seconds)}秒`
 }
@@ -52,6 +52,14 @@ const OP_MAP_REVERSE = [
   [/m/g, '÷'],
   [/n/g, '='],
 ] as const
+
+export function answerEqual(a: string, b: string) {
+  OP_MAP.forEach(([op, code]) => {
+    a = a.replace(op, code)
+    b = b.replace(op, code)
+  })
+  return a === b
+}
 
 export function decodeEqual(str: string) {
   str = atob(str)

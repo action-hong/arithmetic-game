@@ -1,3 +1,5 @@
+import { answerEqual } from './utils'
+
 export type IndexResultType = 'correct' | 'wrong position' | 'wrong' | 'unknown'
 
 export interface IndexResult {
@@ -18,7 +20,7 @@ export function diff(answer: string, input: string): Array<IndexResult> {
   for (let i = 0; i < answer.length; i++) {
     const char = answer[i]
     const inputChar = input[i]
-    if (char === inputChar) {
+    if (answerEqual(char, inputChar)) {
       result.push({
         pos: i,
         char: inputChar,
@@ -27,7 +29,7 @@ export function diff(answer: string, input: string): Array<IndexResult> {
       answerChars[i].selected = true
     }
     else if (
-      answerChars.findIndex(item => item.item === inputChar && !item.selected) !== -1
+      answerChars.findIndex(item => answerEqual(item.item, inputChar) && !item.selected) !== -1
     ) {
       result.push({
         pos: i,
