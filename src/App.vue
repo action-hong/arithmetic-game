@@ -1,15 +1,15 @@
 <script lang="ts" setup>
 import '~/init'
 import { decodeEqual } from './core'
-import { customAnswer, dayNo, daySince, gameType } from './state'
+import { customAnswer, dayFromParams, daySince, gameType } from './state'
 const route = useRoute()
 
 watch(() => route, (val) => {
   if (val.params.d) {
-    dayNo.value = Number(val.params.d)
+    dayFromParams.value = Number(val.params.d)
   }
   else {
-    dayNo.value = daySince.value
+    dayFromParams.value = daySince.value
   }
   if (val.params.answer && typeof val.params.answer === 'string') {
     gameType.value = 'custom'

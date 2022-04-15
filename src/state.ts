@@ -12,7 +12,8 @@ export const daySince = useDebounce(computed(() => {
 export const timeToNextDay = useDebounce(computed(() => {
   return calcTimeToNextDay(now.value)
 }))
-export const dayNo = computed(() => daySince.value)
+export const dayFromParams = ref(0)
+export const dayNo = computed(() => dayFromParams.value || daySince.value)
 
 export const gameType = ref<GameType>('classic')
 export const customAnswer = ref<string>('')
