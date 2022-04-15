@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { meta } from '~/storage'
-import { timeToNextDay } from '~/state'
+import { timeToNextDay, dayNo } from '~/state'
 </script>
 
 <template>
+  <p>No. {{ dayNo }} 天</p>
   <Game />
   <template v-if="meta.passed">
     <p text="cool-gray-500">

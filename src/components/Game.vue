@@ -140,7 +140,7 @@ onKeyStroke('Delete', () => handleInputDelete())
 onKeyStroke('Backspace', () => handleInputDelete(true))
 
 // 花费的时间
-const duration = computed(() => millisToFormatTime(meta.value.duration))
+const duration = computed(() => millisToFormatTime(meta.value.duration || 0))
 
 </script>
 
