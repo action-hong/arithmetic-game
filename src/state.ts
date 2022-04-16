@@ -53,3 +53,6 @@ export const showSetting = ref(false)
 // 严格模式，式子必须是正确的
 export const enableStrictMode = useStorage('__setting_strict', true)
 export const autoComplete = useStorage('__setting_autoComplete', false)
+
+// 分享
+export const showShare = ref(false)
