@@ -42,6 +42,7 @@ const showBack = computed(() => router.currentRoute.value.path !== '/')
       />
 
       <div
+        v-if="showBack"
         class="icon-btn"
         i-carbon-share
         title="分享"
