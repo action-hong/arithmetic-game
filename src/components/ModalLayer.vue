@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { showHelpDialog, showNotify, showSetting } from '~/state'
+import { showHelpDialog, showNotify, showSetting, showShareDialog } from '~/state'
 
 </script>
 
@@ -13,4 +13,7 @@ import { showHelpDialog, showNotify, showSetting } from '~/state'
   <Modal v-model="showNotify">
     <Notification />
   </Modal>
+  <Dialog v-model="showShareDialog">
+    <Share />
+  </Dialog>
 </template>

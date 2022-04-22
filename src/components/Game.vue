@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { answerEqual, IndexResult } from '~/core'
-import { KEY_MARKUP, MARKUP, checkGame, diff, getTipFromResult, millisToFormatTime, win } from '~/core'
+import type { IndexResult } from '~/core'
+import { KEY_MARKUP, MARKUP, answerEqual, checkGame, diff, getTipFromResult, millisToFormatTime, win } from '~/core'
 
 import { currentTry, currentTryIndex, markStart, meta, tries } from '~/storage'
 import { answer, autoComplete, enableStrictMode, isDev, notify } from '~/state'
@@ -243,7 +243,7 @@ const duration = computed(() => millisToFormatTime(meta.value.duration || 0))
           class="cell-btn"
           @click="handleInputEnter"
         >
-          Enter
+          确定
         </div>
         <div
           bg-green-500
@@ -252,7 +252,7 @@ const duration = computed(() => millisToFormatTime(meta.value.duration || 0))
           class="cell-btn"
           @click="handleInputDelete()"
         >
-          DELETE
+          删除
         </div>
       </div>
     </div>

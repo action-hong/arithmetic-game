@@ -55,4 +55,4 @@ export const enableStrictMode = useStorage('__setting_strict', true)
 export const autoComplete = useStorage('__setting_autoComplete', false)
 
 // 分享
-export const showShare = ref(false)
+export const showShareDialog = ref(false)

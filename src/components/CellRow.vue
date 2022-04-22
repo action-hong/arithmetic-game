@@ -3,8 +3,10 @@ import type { IndexResult } from '~/core'
 withDefaults(defineProps<{
   results: Array<IndexResult>
   animated?: boolean
+  hideAnswer?: boolean
 }>(), {
   animated: true,
+  hideAnswer: false,
 })
 </script>
 
@@ -19,7 +21,7 @@ withDefaults(defineProps<{
       :key="idx"
       :idx="idx"
       :animated="animated"
-      :char="item.char"
+      :char="hideAnswer ? '' : item.char"
       :type="item.type"
     />
   </div>

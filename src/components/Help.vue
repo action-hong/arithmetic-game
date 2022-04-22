@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 
-import type { IndexResult, IndexResultType } from '~core'
+import type { IndexResult, IndexResultType } from '~/core'
 
 function getResult(array: string, index: number, type: IndexResultType): Array<IndexResult> {
   return array.split('').map((char, idx) => ({

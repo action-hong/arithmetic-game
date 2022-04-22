@@ -7,6 +7,7 @@ declare module 'vue' {
     Cell: typeof import('./src/components/Cell.vue')['default']
     CellRow: typeof import('./src/components/CellRow.vue')['default']
     Counter: typeof import('./src/components/Counter.vue')['default']
+    Dialog: typeof import('./src/components/Dialog.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
     Game: typeof import('./src/components/Game.vue')['default']
     Help: typeof import('./src/components/Help.vue')['default']
@@ -15,6 +16,7 @@ declare module 'vue' {
     Notification: typeof import('./src/components/Notification.vue')['default']
     NumberRange: typeof import('./src/components/NumberRange.vue')['default']
     Setting: typeof import('./src/components/Setting.vue')['default']
+    Share: typeof import('./src/components/Share.vue')['default']
     SwitchButton: typeof import('./src/components/SwitchButton.vue')['default']
   }
 }

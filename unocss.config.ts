@@ -43,7 +43,7 @@ export default defineConfig({
   ],
   theme: {
     breakpoints: {
-      mm: '400px',
+      mm: '420px',
     },
   },
   transformers: [
