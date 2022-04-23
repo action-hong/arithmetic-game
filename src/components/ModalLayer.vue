@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { showHelpDialog, showNotify, showSetting, showShareDialog } from '~/state'
-
 </script>
 
 <template>

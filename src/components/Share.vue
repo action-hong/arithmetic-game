@@ -2,6 +2,8 @@
 import { diff, millisToFormatTime } from '~/core'
 import { meta, tries } from '~/storage'
 import { answer, notify, showShareDialog } from '~/state'
+import { shareweibo } from '~/utils'
+
 const userInputResult = $computed(() => tries.value.map(input => diff(answer.value, input)))
 
 const squareMessage = $computed(() => userInputResult.map(item => item.map(({ type }) => {
@@ -28,7 +30,7 @@ watch(() => route.query.tryLimit, (value) => {
   }
 }, { immediate: true })
 
-function goShare() {
+const shareMessage = $computed(() => {
   let share = ''
   if (passed) {
     share = `猜猜猜 ${userInputResult.length}/${count.value}\n`
@@ -42,7 +44,11 @@ function goShare() {
   }
   share += squareMessage
   share += `\n\n${window.location.href}`
-  copy(share)
+  return share
+})
+
+function goShare() {
+  copy(shareMessage)
     .then(() => {
       notify({
         type: 'success',
@@ -51,13 +57,20 @@ function goShare() {
     })
   showShareDialog.value = false
 }
+
+function goWeibo() {
+  shareweibo(
+    shareMessage,
+    window.location.href,
+  )
+}
 </script>
 
 <template>
   <div
     p="4"
     bg="#ffffff"
-    class="text-white dark:text-black"
+    class="text-black"
   >
     <template v-if="meta.passed">
       <p class="text-lg">
@@ -87,6 +100,17 @@ function goShare() {
       @click="goShare"
     >
       分享
+    </div>
+    <div
+      flex="~"
+      justify="center"
+      items="center"
+    >
+      <div
+        class="icon-btn"
+        i-ant-design-weibo-outlined
+        @click="goWeibo"
+      />
     </div>
   </div>
 </template>

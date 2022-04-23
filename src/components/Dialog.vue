@@ -29,6 +29,7 @@ defineEmits<{
     />
     <div
       class="bg-base relative border-base transition-all duration-200 ease-out max-w-screen max-h-screen overflow-auto"
+      border="rounded-lg"
       :style="modelValue ? {} : { transform: 'scale(0)' }"
     >
       <slot />
