@@ -58,12 +58,12 @@ function goShare() {
   showShareDialog.value = false
 }
 
-function goWeibo() {
-  shareweibo(
-    shareMessage,
-    window.location.href,
-  )
-}
+// function goWeibo() {
+//   shareweibo(
+//     shareMessage,
+//     window.location.href,
+//   )
+// }
 </script>
 
 <template>
@@ -101,7 +101,7 @@ function goWeibo() {
     >
       分享
     </div>
-    <div
+    <!-- <div
       flex="~"
       justify="center"
       items="center"
@@ -111,6 +111,6 @@ function goWeibo() {
         i-ant-design-weibo-outlined
         @click="goWeibo"
       />
-    </div>
+    </div> -->
   </div>
 </template>
