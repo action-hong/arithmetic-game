@@ -232,6 +232,7 @@ const duration = computed(() => millisToFormatTime(meta.value.duration || 0))
         </div>
       </div>
       <div
+        v-if="canPlay"
         flex="~ wrap"
         items-center
         justify="center"
