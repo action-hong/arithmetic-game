@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { isDark, toggleDark } from '~/composables'
-import { showHelpDialog, showSetting, showShareDialog } from '~/state'
+import { showHelpDialog, showScoreBoard, showSetting, showShareDialog } from '~/state'
 
 const router = useRouter()
 const showBack = computed(() => router.currentRoute.value.path !== '/')
@@ -20,6 +20,12 @@ const showBack = computed(() => router.currentRoute.value.path !== '/')
       i-carbon-home
       to="/"
       title="返回首页"
+    />
+    <div
+      class="icon-btn"
+      i-carbon-catalog
+      title="计分"
+      @click="showScoreBoard = true"
     />
     <div
       flex="~ 1"

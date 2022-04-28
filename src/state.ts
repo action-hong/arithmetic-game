@@ -56,3 +56,6 @@ export const autoComplete = useStorage('__setting_autoComplete', false)
 
 // 分享
 export const showShareDialog = ref(false)
+
+// 记分牌
+export const showScoreBoard = ref(false)

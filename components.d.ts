@@ -15,8 +15,11 @@ declare module 'vue' {
     ModalLayer: typeof import('./src/components/ModalLayer.vue')['default']
     Notification: typeof import('./src/components/Notification.vue')['default']
     NumberRange: typeof import('./src/components/NumberRange.vue')['default']
+    ScoreBoard: typeof import('./src/components/ScoreBoard.vue')['default']
+    ScoreCell: typeof import('./src/components/ScoreCell.vue')['default']
     Setting: typeof import('./src/components/Setting.vue')['default']
     Share: typeof import('./src/components/Share.vue')['default']
+    Stat: typeof import('./src/components/ScoreBoard.vue')['default']
     SwitchButton: typeof import('./src/components/SwitchButton.vue')['default']
   }
 }
