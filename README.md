@@ -2,6 +2,12 @@
 
 照着[nerdle game](https://nerdlegame.com/)写着玩
 
-## other
+```bash
+pnpm i
 
-base [vitesse-lit](https://github.com/antfu/vitesse-lite)
+pnpm dev
+
+pnpm build
+```
+
+[地址](https://arithmetic-game.netlify.app/)
