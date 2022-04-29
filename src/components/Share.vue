@@ -2,7 +2,6 @@
 import { diff, millisToFormatTime } from '~/core'
 import { meta, tries } from '~/storage'
 import { answer, notify, showShareDialog } from '~/state'
-import { shareweibo } from '~/utils'
 
 const userInputResult = $computed(() => tries.value.map(input => diff(answer.value, input)))
 

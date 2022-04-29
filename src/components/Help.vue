@@ -49,7 +49,6 @@ const result3 = getResult('5×24=120', 5, 'wrong')
         </li>
       </ul>
       <CellRow
-        :key="index"
         :results="result1"
         :animated="false"
       />
@@ -57,7 +56,6 @@ const result3 = getResult('5×24=120', 5, 'wrong')
         <span text="green-500">5</span>在答案中，且在正确的位置
       </p>
       <CellRow
-        :key="index"
         :results="result2"
         :animated="false"
       />
@@ -65,7 +63,6 @@ const result3 = getResult('5×24=120', 5, 'wrong')
         <span text="orange-400">2</span>在答案中，但不在正确的位置
       </p>
       <CellRow
-        :key="index"
         :results="result3"
         :animated="false"
       />
