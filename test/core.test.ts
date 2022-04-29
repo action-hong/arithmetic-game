@@ -18,9 +18,29 @@ describe('core', () => {
   })
 
   it('check answer', () => {
-    expect(checkGame('1+1=2')).toBe(true)
-    expect(checkGame('1+1=3')).toBe(false)
-    expect(checkGame('1+2*3=7')).toBe(true)
-    expect(checkGame('5+2×3÷3=7')).toBe(true)
+    expect(checkGame('1+1=2')).toMatchInlineSnapshot(`
+      {
+        "code": 0,
+        "error": "",
+      }
+    `)
+    expect(checkGame('1+1=3')).toMatchInlineSnapshot(`
+      {
+        "code": 2,
+        "error": "表达式不正确",
+      }
+    `)
+    expect(checkGame('1+2*3=7')).toMatchInlineSnapshot(`
+      {
+        "code": 0,
+        "error": "",
+      }
+    `)
+    expect(checkGame('5+2×3÷3=7')).toMatchInlineSnapshot(`
+      {
+        "code": 0,
+        "error": "",
+      }
+    `)
   })
 })

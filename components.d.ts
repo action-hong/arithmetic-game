@@ -19,7 +19,6 @@ declare module 'vue' {
     ScoreCell: typeof import('./src/components/ScoreCell.vue')['default']
     Setting: typeof import('./src/components/Setting.vue')['default']
     Share: typeof import('./src/components/Share.vue')['default']
-    Stat: typeof import('./src/components/ScoreBoard.vue')['default']
     SwitchButton: typeof import('./src/components/SwitchButton.vue')['default']
   }
 }

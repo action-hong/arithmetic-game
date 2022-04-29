@@ -5,7 +5,7 @@ import { calcSince, formatDate } from '~/core'
 const min = computed(() => formatDate(startDate.value))
 const max = computed(() => formatDate(endDate.value))
 
-const value = useStorage('last_played_date', min.value)
+const value = ref(formatDate(new Date()))
 
 const dayNo = computed(() => {
   return calcSince(startDate.value, new Date(value.value))

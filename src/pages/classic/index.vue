@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { meta } from '~/storage'
-import { timeToNextDay, dayNo } from '~/state'
+import { dayNo, timeToNextDay } from '~/state'
 </script>
 
 <template>
