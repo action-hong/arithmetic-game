@@ -9,9 +9,9 @@ const score = $computed(() => {
 
   const total = arr.length
   const passed = arr.filter(item => item.passed).length
-  const passedPercent = `${Math.floor(passed * 100 / total)}%`
-  const averageTime = arr.reduce((acc, item) => acc + (item.duration || 0), 0) / total
-  const averageCount = arr.reduce((acc, item) => acc + (item.tries ? item.tries.length : 0), 0) / total
+  const passedPercent = total === 0 ? '0%' : `${Math.floor(passed * 100 / total)}%`
+  const averageTime = total === 0 ? 0 : arr.reduce((acc, item) => acc + (item.duration || 0), 0) / total
+  const averageCount = total === 0 ? 0 : arr.reduce((acc, item) => acc + (item.tries ? item.tries.length : 0), 0) / total
   const formatTime = millisToFormatTime(averageTime)
 
   const max = Math.max(...arr.map(item => item.tries ? item.tries.length : 0))

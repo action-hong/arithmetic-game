@@ -146,12 +146,6 @@ const duration = computed(() => millisToFormatTime(meta.value.duration || 0))
 
 <template>
   <div>
-    <div i-carbon-campsite text-4xl inline-block />
-    <p>
-      <a rel="noreferrer" href="https://github.com/antfu/vitesse-lite" target="_blank">
-        Nerd Game
-      </a>
-    </p>
     <p v-if="isDev">
       {{ answer }}
     </p>
